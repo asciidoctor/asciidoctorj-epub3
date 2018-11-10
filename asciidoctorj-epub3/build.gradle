@@ -1,0 +1,24 @@
+dependencies {
+  testCompile "org.asciidoctor:asciidoctorj:$asciidoctorJVersion"
+
+  gems("rubygems:asciidoctor-epub3:$asciidoctorEpub3GemVersion") {
+    // Exclude gems provided by AsciidoctorJ core
+    exclude module: 'asciidoctor'
+    exclude module: 'thread_safe'
+  }
+}
+
+def gemFiles = fileTree(jruby.gemInstallDir) {
+  include 'specifications/*'
+  include 'gems/*/lib/**'
+  include 'gems/*/data/**'
+}
+
+jrubyPrepare {
+  doLast {
+    copy { // bundles the gems inside this artifact
+      from gemFiles
+      into preparedGems
+    }
+  }
+}
