@@ -6,7 +6,7 @@ def projectMeta = {
     resolveStrategy = groovy.lang.Closure.DELEGATE_FIRST
     name project.name
     description project.description
-    url 'https://github.com/asciidoctor/asciidoctorj-diagram'
+    url 'https://github.com/asciidoctor/asciidoctorj-epub3'
     inceptionYear '2013'
     licenses {
         license {
@@ -17,10 +17,10 @@ def projectMeta = {
     }
     issueManagement {
         system 'github'
-        url 'https://github.com/asciidoctor/asciidoctorj-diagram/issues'
+        url 'https://github.com/asciidoctor/asciidoctorj-epub3/issues'
     }
     scm {
-        url 'https://github.com/asciidoctor/asciidoctorj-diagram'
+        url 'https://github.com/asciidoctor/asciidoctorj-epub3'
     }
     developers {
         developer {

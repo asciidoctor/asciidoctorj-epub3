@@ -18,7 +18,7 @@ ifdef::awestruct[:uri-docs: link:/docs]
 ifndef::awestruct[:uri-docs: http://asciidoctor.org/docs]
 :uri-asciidoctor: {uri-docs}/what-is-asciidoctor
 :uri-asciidoctorj: https://github.com/asciidoctor/asciidoctorj
-:uri-repo: https://github.com/asciidoctor/asciidoctorj-diagram
+:uri-repo: https://github.com/asciidoctor/asciidoctorj-epub3
 :uri-issues: {uri-repo}/issues
 :uri-discuss: http://discuss.asciidoctor.org
 :artifact-version: 1.5.0-alpha.8
