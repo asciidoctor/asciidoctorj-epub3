@@ -8,7 +8,7 @@ dependencies {
   }
 }
 
-def gemFiles = fileTree(jruby.gemInstallDir) {
+def gemFiles = fileTree("${project.buildDir}/.gems") {
   include 'specifications/*'
   include 'gems/*/lib/**'
   include 'gems/*/data/**'
