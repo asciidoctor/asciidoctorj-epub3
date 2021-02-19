@@ -22,3 +22,8 @@ jrubyPrepare {
     }
   }
 }
+
+ext.publicationName = "mavenAsciidoctorJEpub3"
+
+apply from: rootProject.file('gradle/publish.gradle')
+apply from: rootProject.file('gradle/signing.gradle')
