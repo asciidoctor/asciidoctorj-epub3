@@ -1,8 +1,8 @@
 dependencies {
 
-    testCompile ("org.asciidoctor:asciidoctorj:$asciidoctorJVersion")
+    testImplementation ("org.asciidoctor:asciidoctorj:$asciidoctorJVersion")
 
-    testRuntime project(':asciidoctorj-epub3')
+    testImplementation project(':asciidoctorj-epub3')
 }
 
 jar.enabled = false
