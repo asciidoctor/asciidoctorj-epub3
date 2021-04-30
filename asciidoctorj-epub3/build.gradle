@@ -1,5 +1,5 @@
 dependencies {
-  testCompile "org.asciidoctor:asciidoctorj:$asciidoctorJVersion"
+  testImplementation "org.asciidoctor:asciidoctorj:$asciidoctorJVersion"
 
   gems("rubygems:asciidoctor-epub3:$asciidoctorEpub3GemVersion") {
     // Exclude gems provided by AsciidoctorJ core
