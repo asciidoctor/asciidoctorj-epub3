@@ -12,6 +12,8 @@ def gemFiles = fileTree("${project.buildDir}/.gems") {
   include 'specifications/*'
   include 'gems/*/lib/**'
   include 'gems/*/data/**'
+  include 'gems/*/data/**'
+  include 'gems/*/*'
 }
 
 jrubyPrepare {

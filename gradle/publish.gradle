@@ -1,4 +1,4 @@
-apply plugin: 'de.marcphilipp.nexus-publish'
+apply plugin: 'maven-publish'
 
 publishing {
     publications.create(project.ext.publicationName, MavenPublication) {
@@ -58,21 +58,20 @@ publishing {
     }
 }
 
-
 // QUESTION should we move manifest creation to general Java plugin config?
 jar {
     manifest {
         attributes \
-      'Built-By': System.properties['user.name'],
-        'Created-By': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})".toString(),
-        'Build-Date': buildDateOnly,
-        //'Build-Time': buildTimeOnly,
-        //'Specification-Title': project.name,
-        //'Specification-Version': project.version,
-        //'Specification-Vendor': 'asciidoctor.org',
-        'Implementation-Title': project.name,
-        'Implementation-Version': project.version,
-        'Implementation-Vendor': 'asciidoctor.org'
+       'Built-By': System.properties['user.name'],
+                'Created-By': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})".toString(),
+                'Build-Date': buildDateOnly,
+                //'Build-Time': buildTimeOnly,
+                //'Specification-Title': project.name,
+                //'Specification-Version': project.version,
+                //'Specification-Vendor': 'asciidoctor.org',
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.version,
+                'Implementation-Vendor': 'asciidoctor.org'
     }
 }
 
@@ -87,10 +86,3 @@ publishing {
         }
     }
 }
-
-nexusPublishing {
-    repositories {
-        sonatype()
-    }
-}
-
