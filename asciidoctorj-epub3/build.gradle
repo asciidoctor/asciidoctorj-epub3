@@ -1,10 +1,38 @@
+apply plugin: 'org.ysb33r.jruby.base'
+apply plugin: 'org.ysb33r.jruby.resolver'
+
+import org.ysb33r.gradle.jruby.api.base.tasks.JRubyPrepare
+
+configurations {
+  runtimeGems {
+    canBeResolved(true)
+  }
+}
+
 dependencies {
   testImplementation "org.asciidoctor:asciidoctorj:$asciidoctorJVersion"
 
-  gems("rubygems:asciidoctor-epub3:$asciidoctorEpub3GemVersion") {
+  runtimeGems("rubygems:asciidoctor-epub3:$asciidoctorEpub3GemVersion") {
     // Exclude gems provided by AsciidoctorJ core
     exclude module: 'asciidoctor'
     exclude module: 'thread_safe'
+  }
+}
+
+repositories {
+  ruby.gems()
+}
+
+ext {
+  // path to use for the prepared jruby gems
+  preparedGems = new File("$buildDir/preparedGems")
+}
+
+sourceSets {
+  main {
+    //let's register an output folder on the main SourceSet:
+    output.dir(preparedGems, builtBy: 'gemPrepare')
+    //it is now a part of the 'main' classpath and will be a part of the jar
   }
 }
 
@@ -15,7 +43,8 @@ def gemFiles = fileTree("${project.buildDir}/.gems") {
   include 'gems/*/*'
 }
 
-jrubyPrepare {
+tasks.named('gemPrepare', JRubyPrepare) {
+  gemConfiguration = configurations.runtimeGems
   doLast {
     copy { // bundles the gems inside this artifact
       from gemFiles
@@ -23,6 +52,10 @@ jrubyPrepare {
     }
   }
 }
+
+// QUESTION is this the right place to insert this task dependency in the lifecycle?
+// IMPORTANT The TMP or TEMP environment variable must be set for the gem install command to work on Windows
+processResources.dependsOn gemPrepare
 
 ext.publicationName = "mavenAsciidoctorJEpub3"
 
