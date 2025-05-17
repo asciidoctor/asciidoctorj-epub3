@@ -18,8 +18,11 @@ buildscript {
 plugins {
   id "signing"
   id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
-  id 'com.github.jruby-gradle.base' version '2.0.0'
+  id 'org.ysb33r.jruby.resolver'    version '2.0.0'
+  id 'org.ysb33r.jruby.base' version '2.0.0'
 }
+
+import org.ysb33r.gradle.jruby.api.base.tasks.JRubyPrepare
 
 // TIP use -PpublishRelease=true to active release behavior regardless of the version
 status = project.hasProperty('publishRelease') && project.publishRelease.toBoolean() ?
@@ -79,7 +82,6 @@ subprojects {
     if (project.hasProperty('useMavenLocal') && project.useMavenLocal.toBoolean()) {
       mavenLocal()
     }
-
     mavenCentral()
   }
 
@@ -120,25 +122,6 @@ subprojects {
 configure(subprojects.findAll {it.name != 'itest'}) {
   apply from: rootProject.file('gradle/versioncheck.gradle')
 
-  apply plugin: 'com.github.jruby-gradle.base'
-
-  repositories {
-    ruby.gems()
-  }
-
-  ext {
-    // path to use for the prepared jruby gems
-    preparedGems = new File("$buildDir/preparedGems")
-  }
-
-  sourceSets {
-    main {
-      //let's register an output folder on the main SourceSet:
-      output.dir(preparedGems, builtBy: 'jrubyPrepare')
-      //it is now a part of the 'main' classpath and will be a part of the jar
-    }
-  }
-  
   if (JavaVersion.current().isJava8Compatible()) {
     javadoc {
       // Oracle JDK8 likes to fail the build over spoiled HTML
@@ -157,24 +140,6 @@ configure(subprojects.findAll { it.name != 'itest'}) {
   jruby {
     jrubyVersion = jrubyJarVersion
   }
-
-  ext {
-    // path to use for the prepared jruby gems
-    preparedGems = new File("$buildDir/preparedGems")
-  }
-
-  sourceSets {
-    main {
-      //let's register an output folder on the main SourceSet:
-      output.dir(preparedGems, builtBy: 'jrubyPrepare')
-      //it is now a part of the 'main' classpath and will be a part of the jar
-    }
-  }
-
-  // QUESTION is this the right place to insert this task dependency in the lifecycle?
-  // IMPORTANT The TMP or TEMP environment variable must be set for the gem install command to work on Windows
-  processResources.dependsOn jrubyPrepare
-
 }
 
 nexusPublishing {
